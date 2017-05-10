@@ -8,6 +8,7 @@ import { PhotoPage } from '../pages/photo/photo';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { IonicStorageModule } from '@ionic/storage'
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera'
 import { PhotoViewer } from '@ionic-native/photo-viewer';
@@ -24,7 +25,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +42,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Geolocation,
     Camera,
     PhotoViewer,
+    Storage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

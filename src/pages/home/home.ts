@@ -58,7 +58,7 @@ export class HomePage {
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
-
+      
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       this.addMarker();
     }, (err) => {

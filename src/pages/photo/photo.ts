@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Place } from '../photo/placeInterface';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-photo',
@@ -22,8 +23,8 @@ export class PhotoPage {
   };
   constructor(public navCtrl: NavController,
               private camera: Camera,
-              private photoViewer: PhotoViewer) {
-
+              private photoViewer: PhotoViewer,
+              public storage: Storage) {
   }
 
   takePicture() {
