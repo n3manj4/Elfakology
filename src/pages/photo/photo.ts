@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Place } from '../photo/placeInterface';
 import { Storage } from '@ionic/storage';
+import { HomePage } from '../home/home'
 
 @Component({
   selector: 'page-photo',
@@ -21,10 +22,20 @@ export class PhotoPage {
     },
     userId: ''
   };
+
   constructor(public navCtrl: NavController,
               private camera: Camera,
               private photoViewer: PhotoViewer,
               public storage: Storage) {
+
+
+              storage.get('lat').then((val) => {
+         this.place.coordinates.lat = val;
+       })
+             storage.get('lng').then((val) => {
+             this.place.coordinates.lng = val;
+})
+
   }
 
   takePicture() {

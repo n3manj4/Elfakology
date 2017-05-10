@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { PhotoPage } from '../photo/photo'
+import { Storage } from '@ionic/storage';
 
 declare var google;
 
@@ -13,7 +15,7 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public geolocation: Geolocation, private storage: Storage) {
 
   }
 
@@ -58,7 +60,12 @@ export class HomePage {
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
-      
+
+      this.storage.set('lat', position.coords.latitude);
+      console.log('Latitude is ', position.coords.latitude);
+      this.storage.set('lng', position.coords.longitude);
+      console.log('Longnitude is ', position.coords.longitude);
+
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       this.addMarker();
     }, (err) => {
