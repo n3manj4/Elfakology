@@ -6,5 +6,5 @@ export interface Place {
     lat: number;
     lng: number;
   };
-  userId: string;
+  //userId: string;
   }

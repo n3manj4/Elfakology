@@ -7,6 +7,7 @@ import { AboutPage } from '../pages/about/about';
 import { PhotoPage } from '../pages/photo/photo';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { Marker } from '../pages/marker/marker'
 
 import { IonicStorageModule } from '@ionic/storage'
 import { Geolocation } from '@ionic-native/geolocation';
@@ -21,7 +22,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AboutPage,
     PhotoPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    Marker
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AboutPage,
     PhotoPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    Marker
   ],
   providers: [
     StatusBar,

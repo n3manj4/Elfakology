@@ -26,8 +26,8 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label floating>Place name</ion-label>
-          <ion-input> [(ngModel)]="place.name"></ion-input>
+          <ion-label floating>Description</ion-label>
+          <ion-input [(ngModel)]="place.name" ></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -35,13 +35,13 @@
       <ion-col>
         <ion-item>
           <ion-label>Latitude</ion-label>
-          <ion-input [(ngModel)]="place.coordinates.lat" readonly></ion-input>
+          <ion-input [(ngModel)]="place.coordinates.lat" ></ion-input>
         </ion-item>
       </ion-col>
       <ion-col>
         <ion-item>
           <ion-label>Longitude</ion-label>
-          <ion-input [(ngModel)]="place.coordinates.lng" readonly></ion-input>
+          <ion-input [(ngModel)]="place.coordinates.lng" ></ion-input>
         </ion-item>
       </ion-col>
       </ion-row>

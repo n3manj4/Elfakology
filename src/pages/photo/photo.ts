@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Place } from '../photo/placeInterface';
 import { Storage } from '@ionic/storage';
-import { HomePage } from '../home/home'
 
 @Component({
   selector: 'page-photo',
@@ -13,28 +12,32 @@ import { HomePage } from '../home/home'
 
 export class PhotoPage {
   place: Place = {
-    id: Date.now(),
+    id: 0,
     name: '',
     imgUrl: '',
     coordinates: {
       lat: 0,
       lng: 0
     },
-    userId: ''
+    //userId: ''
   };
+  places: string[];
 
   constructor(public navCtrl: NavController,
               private camera: Camera,
               private photoViewer: PhotoViewer,
-              public storage: Storage) {
-
-
-              storage.get('lat').then((val) => {
-         this.place.coordinates.lat = val;
-       })
-             storage.get('lng').then((val) => {
+              public storage: Storage)
+             {
+            storage.get('lat').then((val) => {
+              this.place.coordinates.lat = val;
+              })
+            storage.get('lng').then((val) => {
              this.place.coordinates.lng = val;
-})
+             })
+            storage.get('places').then((val) => {
+              this.places = val;
+               })
+            this.places = [];
 
   }
 
@@ -49,7 +52,24 @@ export class PhotoPage {
       .then(imgUrl => this.place.imgUrl = imgUrl);
   }
 
-    showPhoto() {
-      this.photoViewer.show(this.place.imgUrl);
-    }
+  showPhoto() {
+    this.photoViewer.show(this.place.imgUrl);
+    // this.storage.get('places').then((val) => {
+    //   console.log(" pre: " + val);
+    //    })
+    // this.storage.clear();
+    // this.storage.get('places').then((val) => {
+    //   console.log(" posle " + val);
+    //    })
+  }
+
+  addPlace() {
+    if (this.places == null) this.places = [];
+    this.place.id = Date.now();
+    this.places.push(JSON.stringify(this.place));
+    console.log(this.places);
+    this.storage.set('places', this.places);
+    this.navCtrl.parent.select(0);
+  }
+
 }
