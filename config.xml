@@ -88,4 +88,5 @@
         <variable name="APP_ID" value="269980626738836" />
         <variable name="APP_NAME" value="Elfakology" />
     </plugin>
+    <plugin name="cordova-sqlite-storage" spec="~2.0.4" />
 </widget>

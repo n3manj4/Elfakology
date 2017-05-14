@@ -9,7 +9,9 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Marker } from '../pages/marker/marker';
 import { LoginPage } from '../pages/login-page/login-page';
+import { RegPage } from '../pages/reg/reg';
 
+import { SQLite} from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage'
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera'
@@ -17,6 +19,10 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
+import { SqlStorage } from '../providers/sql-storage'
+
+
+export function provideStorage() { return new Storage(); }
 
 @NgModule({
   declarations: [
@@ -26,7 +32,8 @@ import { Facebook } from '@ionic-native/facebook';
     HomePage,
     TabsPage,
     Marker,
-    LoginPage
+    LoginPage,
+    RegPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +48,8 @@ import { Facebook } from '@ionic-native/facebook';
     HomePage,
     TabsPage,
     Marker,
-    LoginPage
+    LoginPage,
+    RegPage
   ],
   providers: [
     StatusBar,
@@ -51,6 +59,8 @@ import { Facebook } from '@ionic-native/facebook';
     PhotoViewer,
     Storage,
     Facebook,
+    SqlStorage,
+    SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

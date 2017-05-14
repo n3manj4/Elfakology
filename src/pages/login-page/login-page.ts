@@ -3,64 +3,103 @@ import { Storage } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { Platform } from 'ionic-angular';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { SqlStorage } from "../../providers/sql-storage";
+import { RegPage } from '../reg/reg';
+import { FormBuilder, Validators } from "@angular/forms";
+
+
+export interface User {
+  id: string,
+  email: string,
+  birthday: string,
+  access_token: string,
+  profile_photo: string,
+  name: string,
+  friends: any
+}
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login-page.html',
 })
 export class LoginPage {
+  loggedIn: boolean = false;
+  canEdit: boolean = false;
+  userProfile: User = {
+    id: '',
+    email: '',
+    birthday: '',
+    access_token: '',
+    profile_photo: '',
+    name: '',
+    friends: []
+  };
   FB_APP_ID: number = 269980626738836;
+  isenabled:boolean=true;
+  public registrationForm:any;
 
-  constructor(public navCtrl: NavController, private storage: Storage,private fb: Facebook) {
-    //fb.browserInit(this.FB_APP_ID, "v2.9");
+  constructor(private photoViewer: PhotoViewer,
+              public navCtrl: NavController,
+              private storage: Storage,
+              private fb: Facebook,
+              public platform: Platform,
+              private sqlStorage: SqlStorage,
+              public _form: FormBuilder) {
+    this.platform = platform;
+    this.registrationForm = this._form.group({
+      "username": ['', Validators.required],
+      "password": ['', [Validators.required, Validators.minLength(5)]]
+    });
+
   }
 
-  showInfo()
-  {
-    this.storage.get('user').then((val) => {
-        console.log(val.name);
-        console.log(val.gender);
-       })
-  }
   doFbLogin(){
+    if (this.platform.is('cordova')) {
     this.fb.login(['public_profile', 'user_friends', 'email'])
-  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
-  .catch(e => console.log('Error logging into Facebook', e));
+  .then((res: FacebookLoginResponse) => {
+     console.log('Logged into Facebook!', res);
+     console.log(JSON.stringify(res));
 
+     this.userProfile.id = res.authResponse.userID;
 
-    this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
+  }).catch(e => console.log('Error logging into Facebook', e));
+} else {
+  console.log("Please run me on a device");
+  this.isenabled=false;
+}
+}
+
+  showInfo() {
+    //p = new Promise((resolve, reject) => {
+    this.fb.api('/' + this.userProfile.id + '?fields = name', []).then((data) => {
+      //Get the user data
+      this.userProfile.name = data.name;
+      console.log(this.userProfile.name);
+
+      //Get the user profile picture and save in user object
+      this.fb.api('/' + this.userProfile.id + '/picture?height=150&width=150&redirect=false', []).then((data) => {
+        this.userProfile.profile_photo = data.data.url;
+        this.photoViewer.show(this.userProfile.profile_photo);
+      });
+    });
+
+}
+showData() {
+    this.sqlStorage.gelAll();
+    this.showInfo();
   }
-  // doFbLogin(){
-  //   let permissions = new Array();
-  //   let nav = this.navCtrl;
-  //   //the permissions your facebook app needs from the user
-  //   permissions = ["public_profile"];
-  //
-  //
-  //   this.fb.login(permissions)
-  //   .then(function(response){
-  //     let userId = response.authResponse.userID;
-  //     let params = new Array();
-  //
-  //     //Getting name and gender properties
-  //     this.fb.api("/me?fields=name,gender", params)
-  //     .then(function(user) {
-  //       user.picture = "https://graph.facebook.com/" + userId + "/picture?type=large";
-  //       //now we have the users info, let's save it in the NativeStorage
-  //       this.storage.set('user',
-  //       {
-  //         name: user.name,
-  //         gender: user.gender,
-  //         picture: user.picture
-  //       })
-  //       .then(function(){
-  //         nav.push(HomePage);
-  //       }, function (error) {
-  //         console.log(error);
-  //       })
-  //     })
-  //   }, function(error){
-  //     console.log(error);
-  //   });
-  // }
+
+  loginSubmit() {
+    console.log(this.registrationForm.value);
+
+
+  }
+
+  createAccount() {
+    this.navCtrl.push(RegPage);
+
+  }
+
 }
