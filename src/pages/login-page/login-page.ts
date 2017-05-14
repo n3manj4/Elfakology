@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SqlStorage } from "../../providers/sql-storage";
@@ -18,6 +19,7 @@ export interface User {
   profile_photo: string,
   name: string,
   friends: any
+
 }
 
 @Component({
@@ -38,15 +40,18 @@ export class LoginPage {
   };
   FB_APP_ID: number = 269980626738836;
   isenabled:boolean=true;
+
   public registrationForm:any;
 
   constructor(private photoViewer: PhotoViewer,
+              private toastCtrl: ToastController,
               public navCtrl: NavController,
               private storage: Storage,
               private fb: Facebook,
               public platform: Platform,
               private sqlStorage: SqlStorage,
-              public _form: FormBuilder) {
+              public _form: FormBuilder,
+              ) {
     this.platform = platform;
     this.registrationForm = this._form.group({
       "username": ['', Validators.required],
@@ -87,15 +92,58 @@ export class LoginPage {
 
 }
 showData() {
-    this.sqlStorage.gelAll();
-    this.showInfo();
+    //this.sqlStorage.gelAll();
+    //this.showInfo();
+    this.sqlStorage.gelAll2().then(data => {
+      let i;
+      for (i = 0; i < data.res.rows.length; i++) {
+
+        console.log(data.res.rows.item(i));
+      }
+
+    });
   }
 
   loginSubmit() {
+    this.userProfile.name = this.registrationForm.value.username;
+    this.userProfile.id = this.registrationForm.value.username+this.registrationForm.value.password;
     console.log(this.registrationForm.value);
 
+    this.sqlStorage.gelAll2().then(data => {
+      console.log(this.userProfile.id);
+      let  i;
+      for (i = 0; i < data.res.rows.length; i++) {
+        console.log(data.res.rows.item(i).id);
 
+        if(this.userProfile.id == data.res.rows.item(i).id)
+        {
+          //alert("Email vec postoji.");
+          let toast2 = this.toastCtrl.create({
+                message: 'Uspesno logovanje ',
+                duration: 1500,
+                position: 'bottom'
+              });
+              setTimeout(()=>{this.navCtrl.push(TabsPage,this.userProfile.id);}, 1000);
+              toast2.present();
+          // checkEmail = false;
+          return;
+        }
+        else if(i+1 == data.res.rows.length )
+        {
+          let toast1 = this.toastCtrl.create({
+                message: 'Pogresan username ili password',
+                duration: 3000,
+                position: 'bottom'
+              });
+              toast1.present();
+        }
+      }
+    });
   }
+
+
+
+
 
   createAccount() {
     this.navCtrl.push(RegPage);

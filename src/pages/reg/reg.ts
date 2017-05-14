@@ -108,11 +108,11 @@ export class RegPage {
         this.sqlStorage.set(this.userProfile.id,this.userProfile.email,this.userProfile.username,this.userProfile.password);
         let toast2 = this.toastCtrl.create({
               message: 'Uspesna registracija ' + this.userProfile.username,
-              duration: 2000,
+              duration: 1500,
               position: 'bottom'
             });
 
-            setTimeout(()=>{this.navCtrl.push(TabsPage);}, 2500);
+            setTimeout(()=>{this.navCtrl.push(TabsPage);}, 1000);
             toast2.present();
 
 
