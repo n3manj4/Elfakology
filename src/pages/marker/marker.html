@@ -14,6 +14,10 @@
 
 
 <ion-content padding>
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-input readonly [(ngModel)]="place.name" ></ion-input>
+    </ion-item>
     <button ion-button full color="secondary" (click)="showPhoto()">Show picture</button>
     <button ion-button full color="secondary" (click)="removeMarker()">Remove marker</button>
     <ion-buttons end>

@@ -16,12 +16,22 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'marker.html',
 })
 export class Marker {
-  place: Place;
+  place: Place = {
+    id: 0,
+    name: '',
+    imgUrl: '',
+    coordinates: {
+      lat: 0,
+      lng: 0
+    },
+    //userId: ''
+  };
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private photoViewer: PhotoViewer,
               private storage: Storage) {
+                this.place.name = this.navParams.get('place').name;
   }
 
   ionViewDidLoad() {

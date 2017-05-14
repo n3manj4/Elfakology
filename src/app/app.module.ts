@@ -7,7 +7,8 @@ import { AboutPage } from '../pages/about/about';
 import { PhotoPage } from '../pages/photo/photo';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Marker } from '../pages/marker/marker'
+import { Marker } from '../pages/marker/marker';
+import { LoginPage } from '../pages/login-page/login-page';
 
 import { IonicStorageModule } from '@ionic/storage'
 import { Geolocation } from '@ionic-native/geolocation';
@@ -15,6 +16,7 @@ import { Camera } from '@ionic-native/camera'
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     PhotoPage,
     HomePage,
     TabsPage,
-    Marker
+    Marker,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     PhotoPage,
     HomePage,
     TabsPage,
-    Marker
+    Marker,
+    LoginPage
   ],
   providers: [
     StatusBar,
@@ -46,6 +50,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Camera,
     PhotoViewer,
     Storage,
+    Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

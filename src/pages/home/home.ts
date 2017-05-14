@@ -4,7 +4,10 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Storage } from '@ionic/storage';
 import { Place } from '../photo/placeInterface';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { Marker } from '../marker/marker'
+import { Marker } from '../marker/marker';
+import { LoginPage } from '../login-page/login-page';
+import { Facebook } from '@ionic-native/facebook';
+
 declare var google;
 
 @Component({
@@ -22,14 +25,22 @@ export class HomePage {
               public geolocation: Geolocation,
               private storage: Storage,
               private navParams: NavParams,
-              private photoViewer: PhotoViewer) {
+              private photoViewer: PhotoViewer,
+              private fb: Facebook) {
 
   }
 
   ionViewDidLoad(){
     this.loadMap();
   }
-
+  facebook()
+  {
+    this.navCtrl.push(LoginPage);
+  }
+  logout() {
+    this.fb.logout();
+    //this.loggedIn = false;
+  }
   addMarker(){
 
     let marker = new google.maps.Marker({
@@ -87,6 +98,9 @@ export class HomePage {
         //   console.log(marker.id);
         //
         // });
+        google.maps.event.addListener(marker, 'click', () => {
+          this.navCtrl.push(Marker, { 'place' : marker.id });
+        });
 
         //let content = "<h4>Information!</h4>";
         let content = this.place.name;
@@ -103,13 +117,9 @@ export class HomePage {
     content: content
   });
 
-  google.maps.event.addListener(marker, 'click', () => {
-    infoWindow.open(this.map, marker);
-  });
-  google.maps.event.addListener(marker, 'dblclick', () => {
-    console.log("dblclick");
-    this.navCtrl.push(Marker, { 'place' : marker.id });
-  });
+  // google.maps.event.addListener(marker, 'click', () => {
+  //   infoWindow.open(this.map, marker);
+  // });
 
   }
 
