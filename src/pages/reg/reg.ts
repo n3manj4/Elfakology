@@ -112,41 +112,20 @@ export class RegPage {
               position: 'bottom'
             });
 
-            setTimeout(()=>{this.navCtrl.push(TabsPage);}, 2500);
+            setTimeout(()=>{
+
+              this.navCtrl.setRoot(TabsPage);
+              }, 2500);
             toast2.present();
 
 
 
       });
       console.log(checkEmail);
-
-      // if(checkEmail)
-      // {
-      //
-      //   //this.sqlStorage.set(this.userProfile.id,this.userProfile.email,this.userProfile.username,this.userProfile.password);
-      //
-      // }
-      // else
-      // {
-      //   alert("Postji mail");
-      // }
-
     }
 
     public refresh() {
-        //console.log(this.sqlStorage.get(this.userProfile.id));
 
-
-        //console.log("---------GET USER----NEW--------");
-        //this.sqlStorage.gelAll();
-        //console.log(this.sqlStorage.get("nista"));
-
-
-        //console.log("---------gelAll()----NEW---PROBA-----");
-        //let returnUsers: User[] = [];
-
-
-        //this.sqlStorage.gelAll();
         this.sqlStorage.gelAll2().then(data => {
           let  i;
           for (i = 0; i < data.res.rows.length; i++) {
@@ -155,41 +134,6 @@ export class RegPage {
           }
 
         });
-        //this.sqlStorage.proveri();
-        /*
-        let i;
-        for(i = 0; i < this.sqlStorage.myDbUsers.length; i++)
-        {
-          console.log(this.sqlStorage.myDbUsers[i].email);
-        }
-
-*/
-
-
-
-
-
-
-
-        //  console.log("---------GET USERS----NEW---PROBA-----");
-        //  this.sqlStorage.gelAll();
-
-
-
-        //this.sqlStorage.gelAll();
-        /*
-        this.sqlStorage.get("myacc@gmail.com76788").then(data => {
-            console.log(data);
-          });
-          */
-        //console.log(this.sqlStorage.getUsers());
-
-        //console.log("---------GET USERS----Druga funkcija--------");
-
-        //console.log(this.sqlStorage.getUsers());
-
-
-      //console.log(this.userProfile.email);
 
     }
 

@@ -8,6 +8,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SqlStorage } from "../../providers/sql-storage";
 import { RegPage } from '../reg/reg';
 import { FormBuilder, Validators } from "@angular/forms";
+import { TabsPage } from '../tabs/tabs';
 
 
 export interface User {
@@ -38,6 +39,7 @@ export class LoginPage {
   };
   FB_APP_ID: number = 269980626738836;
   isenabled:boolean=true;
+   tabBarElement: any;
   public registrationForm:any;
 
   constructor(private photoViewer: PhotoViewer,
@@ -54,7 +56,9 @@ export class LoginPage {
     });
 
   }
-
+  ionViewWillEnter() {
+    this.tabBarElement.style.display = 'none';
+  }
   doFbLogin(){
     if (this.platform.is('cordova')) {
     this.fb.login(['public_profile', 'user_friends', 'email'])
@@ -63,6 +67,8 @@ export class LoginPage {
      console.log(JSON.stringify(res));
 
      this.userProfile.id = res.authResponse.userID;
+     this.showInfo();
+     this.navCtrl.setRoot(TabsPage);
 
   }).catch(e => console.log('Error logging into Facebook', e));
 } else {
@@ -79,9 +85,12 @@ export class LoginPage {
       console.log(this.userProfile.name);
 
       //Get the user profile picture and save in user object
-      this.fb.api('/' + this.userProfile.id + '/picture?height=150&width=150&redirect=false', []).then((data) => {
-        this.userProfile.profile_photo = data.data.url;
-        this.photoViewer.show(this.userProfile.profile_photo);
+      this.fb.api('/' + this.userProfile.id + '/picture?height=300&width=300&redirect=false', []).then((data) => {
+        //this.userProfile.profile_photo = data.data.url;
+        this.storage.set('user_photo', data);
+
+        console.log(this.userProfile.profile_photo);
+        //this.photoViewer.show(this.userProfile.profile_photo);
       });
     });
 

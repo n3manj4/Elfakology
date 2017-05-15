@@ -10,6 +10,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { Marker } from '../pages/marker/marker';
 import { LoginPage } from '../pages/login-page/login-page';
 import { RegPage } from '../pages/reg/reg';
+import { Logout } from '../pages/logout/logout'
 
 import { SQLite} from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage'
@@ -33,7 +34,8 @@ export function provideStorage() { return new Storage(); }
     TabsPage,
     Marker,
     LoginPage,
-    RegPage
+    RegPage,
+    Logout
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ export function provideStorage() { return new Storage(); }
     TabsPage,
     Marker,
     LoginPage,
-    RegPage
+    RegPage,
+    Logout
   ],
   providers: [
     StatusBar,

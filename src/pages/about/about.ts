@@ -32,7 +32,7 @@ export class AboutPage {
 
     // list
     context.lineWidth = 2;
-    context.fillStyle = '#32db64';
+    context.fillStyle = '#39b559';
     //context.lineJoin = 'miter';
     //context.lineCap = 'round';
     context.beginPath();
@@ -43,7 +43,7 @@ export class AboutPage {
     context.lineTo(67, 120);
     context.fill();
     context.lineWidth = 1;
-    context.strokeStyle = '#32db64';
+    context.strokeStyle = '#39b559';
     context.moveTo(64, 105);
     context.bezierCurveTo(98, 80, 78, 50, 64, 20);
     context.stroke();

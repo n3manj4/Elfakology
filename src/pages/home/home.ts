@@ -7,6 +7,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Marker } from '../marker/marker';
 import { LoginPage } from '../login-page/login-page';
 import { Facebook } from '@ionic-native/facebook';
+import { Logout } from '../logout/logout';
 
 declare var google;
 
@@ -38,7 +39,7 @@ export class HomePage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.fb.logout();
+    this.navCtrl.push(Logout);
     //this.loggedIn = false;
   }
   addMarker(){
@@ -149,18 +150,7 @@ export class HomePage {
   }
 
   ionViewDidEnter()
-  {
-    // this.storage.forEach( (key, value) => {
-    //    console.log("Value: " + value);
-    //    console.log("key: " + key);
-    //    //let place = value;
-	  //   // let lat = place.coordinates.lat;
-    //    //let lng = place.coordinates.lng;
-    //   // this.addNewMarker(lat, lng);
-    //    })
+  {    
     this.loadMap();
-
-
-
-}
+  }
 }
