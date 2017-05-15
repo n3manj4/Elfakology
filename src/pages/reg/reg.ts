@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, ToastController } from 'ionic-angular';
-//import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { FormBuilder, Validators, FormControl } from "@angular/forms";
 import { SqlStorage } from "../../providers/sql-storage";
-//import { SqlStorage } from "../../providers/sql-storage";
 import { Storage } from "@ionic/storage";
-import { HomePage } from "../home/home";
-import { TabsPage } from '../tabs/tabs';
+import { LoginPage } from '../login-page/login-page';
 
 
 export interface User {
@@ -114,7 +111,9 @@ export class RegPage {
 
             setTimeout(()=>{
 
-              this.navCtrl.setRoot(TabsPage);
+              if (this.navCtrl.parent != null && this.navCtrl.parent.parent != null) this.navCtrl.parent.parent.setRoot(LoginPage);
+              else if (this.navCtrl.parent != null) this.navCtrl.parent.setRoot(LoginPage);
+              else this.navCtrl.setRoot(LoginPage);
             }, 1000);
             toast2.present();
 

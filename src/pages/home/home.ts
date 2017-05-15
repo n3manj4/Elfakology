@@ -22,13 +22,14 @@ export class HomePage {
   lat: number;
   lng: number;
   place: Place;
+  name: string;
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
               private storage: Storage,
               private navParams: NavParams,
               private photoViewer: PhotoViewer,
               private fb: Facebook) {
-
+              this.name = navParams.get('user');
   }
 
   ionViewDidLoad(){
@@ -39,46 +40,12 @@ export class HomePage {
     this.navCtrl.push(LoginPage);
   }
   logout() {
-    this.navCtrl.push(Logout);
+    this.navCtrl.push(Logout,{'user' : this.name});
     //this.loggedIn = false;
   }
-  addMarker(){
-
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,
-      position: this.map.getCenter()
-    });
-
-    let content = "<h4>Information!</h4>";
-
-    this.addInfoWindow(marker, content);
-
-  }
+  
   addNewMarker()
   {
-  //   this.storage.get('places').then((val) => {
-  //
-  //       for (let place of val)
-  //       {
-  //         this.place = JSON.parse(place);
-  //
-  //         let latLng = new google.maps.LatLng(this.place.coordinates.lat, this.place.coordinates.lng);
-  //         let marker = new google.maps.Marker({
-  //           map: this.map,
-  //           //animation: google.maps.Animation.DROP,
-  //           id: this.place.id,
-  //           position: latLng
-  //         });
-  //
-  //         google.maps.event.addListener(marker, 'click', () => {
-  //           this.photoViewer.show(this.place.imgUrl);
-  //
-  //         });
-  //
-  //       }
-  //
-  // })
 
   this.storage.get('places').then((val) => {
 
@@ -95,34 +62,16 @@ export class HomePage {
           position: latLng
         });
 
-        // google.maps.event.addListener(marker, 'click', () => {
-        //   console.log(marker.id);
-        //
-        // });
         google.maps.event.addListener(marker, 'click', () => {
           this.navCtrl.push(Marker, { 'place' : marker.id });
         });
-
-        //let content = "<h4>Information!</h4>";
-        let content = this.place.name;
-        this.addInfoWindow(marker, content);
     }
   }
 
 })
   }
 
-  addInfoWindow(marker, content){
 
-  let infoWindow = new google.maps.InfoWindow({
-    content: content
-  });
-
-  // google.maps.event.addListener(marker, 'click', () => {
-  //   infoWindow.open(this.map, marker);
-  // });
-
-  }
 
   loadMap(){
 
@@ -150,7 +99,7 @@ export class HomePage {
   }
 
   ionViewDidEnter()
-  {    
+  {
     this.loadMap();
   }
 }

@@ -2,14 +2,12 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { NavController, ToastController } from 'ionic-angular';
-import { HomePage } from '../home/home';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SqlStorage } from "../../providers/sql-storage";
 import { RegPage } from '../reg/reg';
 import { FormBuilder, Validators } from "@angular/forms";
-
 
 export interface User {
   id: string,
@@ -60,9 +58,7 @@ export class LoginPage {
     });
 
   }
-  ionViewWillEnter() {
-    this.tabBarElement.style.display = 'none';
-  }
+
   doFbLogin(){
     if (this.platform.is('cordova')) {
     this.fb.login(['public_profile', 'user_friends', 'email'])
@@ -91,7 +87,8 @@ export class LoginPage {
       //Get the user profile picture and save in user object
       this.fb.api('/' + this.userProfile.id + '/picture?height=300&width=300&redirect=false', []).then((data) => {
         //this.userProfile.profile_photo = data.data.url;
-        this.storage.set('user_photo', data);
+
+        this.storage.set('user_photo', { url : data.data.url, name:this.userProfile.name });
 
         console.log(this.userProfile.profile_photo);
         //this.photoViewer.show(this.userProfile.profile_photo);
@@ -131,7 +128,10 @@ showData() {
                 duration: 1500,
                 position: 'bottom'
               });
-              setTimeout(()=>{this.navCtrl.push(TabsPage,this.userProfile.id);}, 1000);
+              setTimeout(()=>{
+              this.storage.set('user_photo', { name: this.userProfile.name, url: "img/eco.png"});
+              this.navCtrl.setRoot(TabsPage);
+            }, 1000);
               toast2.present();
           // checkEmail = false;
           return;
@@ -154,6 +154,7 @@ showData() {
 
 
   createAccount() {
+    this.storage.remove('user_photo');
     this.navCtrl.push(RegPage);
 
   }

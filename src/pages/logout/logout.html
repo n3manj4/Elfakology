@@ -16,13 +16,13 @@
 <ion-content padding>
   <div>
     <ion-card>
-      <img src={{imgSrc}}>
+      <img src={{user.imgSrc}}>
     </ion-card>
   </div>
   <ion-item>
-    <ion-label floating>{{name}}</ion-label>
-    <ion-input [(ngModel)]="name" ></ion-input>
+    <ion-label floating>User name</ion-label>
+    <ion-input readonly [(ngModel)]="user.name" ></ion-input>
   </ion-item>
   <br>
-  <button ion-button color="danger" (click)="logout()">Logout</button>
+  <button ion-button block color="danger" (click)="logout()">Logout</button>
 </ion-content>

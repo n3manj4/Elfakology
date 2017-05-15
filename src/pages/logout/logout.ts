@@ -4,34 +4,43 @@ import { Storage } from '@ionic/storage';
 import { Facebook } from '@ionic-native/facebook';
 import { LoginPage } from '../login-page/login-page';
 
+export interface User {
+  name: string,
+  imgSrc: string,
+}
 @IonicPage()
 @Component({
   selector: 'page-logout',
   templateUrl: 'logout.html',
 })
 export class Logout {
-  imgSrc: string;
-  name: string;
+  user: User = {
+  imgSrc: '',
+  name: ''
+}
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage:Storage, private fb:Facebook) {
     storage.get('user_photo').then((val) => {
-      this.imgSrc = val.data.url;
-      this.name = val.data.name;
+      console.log(val);
+      if (val != null){
+        this.user.imgSrc = val.url;
+        this.user.name = val.name;
+      console.log(this.user.name);
+    }
       })
-      console.log(this.name);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad Logout');
-    console.log(this.imgSrc);
-  }
 
   logout() {
     this.storage.get('user_photo').then((val) => {
-      if (val != null) {
+      if (val.data != null) {
         this.fb.logout();
-        this.navCtrl.parent.parent.setRoot(LoginPage);
+        if (this.navCtrl.parent != null && this.navCtrl.parent.parent != null) this.navCtrl.parent.parent.setRoot(LoginPage);
+        else if (this.navCtrl.parent != null) this.navCtrl.parent.setRoot(LoginPage);
+        else this.navCtrl.setRoot(LoginPage);
         console.log("Logged out from fb");
         }
+        else { this.navCtrl.parent.parent.setRoot(LoginPage);
+        console.log("Logged out "); }
       })
   }
 }
